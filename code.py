@@ -48,28 +48,33 @@ class Code:
                 }
 
 
+    # determines d bits in instruction given an expression
+    # oooacccccc'ddd'jjj
     def dest(self, expr):
         return self.dest_table.get(expr.strip())
 
+    # determines c bits in instruction given an expression
+    # oooa'cccccc'dddjjj
     def comp(self, expr):
         gen_str = re.sub("[AM]", "S", expr.strip())
         c = self.comp_table.get(gen_str)
 
-        if "M" in expr:
-            c = "1" + c
-        else:
-            c = "0" + c
+        return self.aBit(expr) + c
 
-        return c
+    # determines value of a-bit in instruction given an expression
+    # ooo'a'ccccccdddjjj
+    def aBit(self, expr):
+        return "1" if "M" in expr else "0"
     
+    # determines value of jump bits in instruction given an expression
+    # oooaccccccddd'jjj'
     def jump(self, expr):
         return self.jump_table.get(expr.strip())
 
+    # converts base 10 int d to 16 bit binary int
     def dtob16(self, d):
         b = format(int(d), 'b')
         for i in range(0, 16 - len(b)):
             b = '0' + b
 
         return b
-
-
