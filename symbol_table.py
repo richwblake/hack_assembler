@@ -33,14 +33,20 @@ class SymbolTable:
                 }
 
 
+    # adds new entry to symbol table if it doesn't previously exist. Caller should probably know in advance
     def add_entry(self, symbol, addr=-1):
         if symbol not in self.table:
+            # if addr is default value, create variable in table and assign next available addr in ROM
             if addr == -1:
                 self.table[symbol] = self.current_rom_addr
                 self.current_rom_addr += 1
+            # otherwise, an address has been supplied (creating a label)
             else:
                 self.table[symbol] = addr
 
+        # This function returns the address that was just added, to work with the caller. 
+        # If addr has the default value, return the current_rom_address
+        # otherwise, return the supplied addr
         return addr if addr != -1 else self.current_rom_addr - 1
 
     def contains(self, symbol):
