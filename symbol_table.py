@@ -1,5 +1,3 @@
-from pprint import pprint
-
 class SymbolTable:
     def __init__(self):
         # first 15 indices of ROM reserved, start at index 16 to allocate space for new variables
