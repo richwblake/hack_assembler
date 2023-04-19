@@ -1,6 +1,7 @@
 import re
 
 class Code:
+    # initialize tables that map each (dest=comp;jump) to their contracted binary representation
     def __init__(self):
         self.comp_table = {
                 "0": "101010",
@@ -56,6 +57,7 @@ class Code:
     # determines c bits in instruction given an expression
     # oooa'cccccc'dddjjj
     def comp(self, expr):
+        # subs both A and M for placeholder S to decrease size of comp_table
         gen_str = re.sub("[AM]", "S", expr.strip())
         c = self.comp_table.get(gen_str)
 
@@ -71,7 +73,7 @@ class Code:
     def jump(self, expr):
         return self.jump_table.get(expr.strip())
 
-    # converts base 10 int d to 16 bit binary int
+    # converts base 10 int d to 16 bit binary int of type str
     def dtob16(self, d):
         b = format(int(d), 'b')
         for i in range(0, 16 - len(b)):
